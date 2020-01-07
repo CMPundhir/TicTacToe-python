@@ -3,17 +3,20 @@ import random
 import time
 
 
-board = [[0,0,0],
-       [0,0,0],
-       [0,0,0]]
+board = [[" "," "," "],
+       [" "," "," "],
+       [" "," "," "]]
 
 pc = 0
 player = 1
 
+sym = [" ","O","X"]
+
+
 def validatePos(pos):
     row = int(pos / 3)
     col = int(pos % 3)
-    if board[row][col]==0:
+    if board[row][col]==sym[0]:
         #print(f" computer valid move {pos}")
         return True
     else:
@@ -34,10 +37,10 @@ def rowWin(player):
     x = 0
     for row in range(len):
         for col in range(len):
-            if board[row][col]==player:
+            if board[row][col]==sym[player]:
                 x = x + 1
             else:
-                x = 0
+                x=0
                 break
         if x==len:
             print(f"player {player} won")
@@ -49,10 +52,10 @@ def colWin(player):
     x = 0
     for row in range(len):
         for col in range(len):
-            if board[col][row]==player:
+            if board[col][row]==sym[player]:
                 x = x + 1
             else:
-                x = 0
+                x=0
                 break
         if x==len:
             print(f"player {player} won")
@@ -64,14 +67,10 @@ def tedaWin(player):
     x = 0
     y = 0
     for row in range(len):
-        if board[row][row] == player:
+        if board[row][row] == sym[player]:
             x = x + 1
-        else:
-            x = 0
-        if board[row][len-row-1] == player:
+        if board[row][len-row-1] == sym[player]:
             y = y + 1
-        else:
-            x = 0
     if x == len or y == len:
         print(f"player {player} won")
         return True
@@ -84,11 +83,16 @@ def changeTurn():
 
 def printBoard():
     len = board.__len__()
+    print("")
     for row in range(len):
+        if row>0 :
+            print("__  __  __")
         for col in range(len):
             print(board[row][col],end=" ")
+            if col<2:
+                print("|",end=" ")
         print("")
-
+    print("")
 
 def addMove(player,pos):
     if pos<0 or pos>8:
@@ -96,8 +100,8 @@ def addMove(player,pos):
         return False
     row = int(pos / 3)
     col = int(pos % 3)
-    if board[row][col]==0:
-        board[row][col] = player
+    if board[row][col]==sym[0]:
+        board[row][col] = sym[player]
     else:
         print("invalid move")
         return False
@@ -106,16 +110,18 @@ def addMove(player,pos):
 
 while(pc<9):
     if player == 1:
-        pos = computerTurn()
-        print("player 1 move : ", end="")
-        time.sleep(1)
-        print(pos)
-        # print("player 1 move : ",end=" ")
-        #pos = int(input("Enter your choioce : "))
+        # pos = computerTurn()
+        # print("player 1 move : ", end="")
+        # time.sleep(1)
+        # print(pos)
+        print("player 1 move : ",end=" ")
+        pos = int(input("Enter your choioce : "))
 
     else :
-        #pos = computerTurn()
-        #print(f"player 2 move : {pos}")
+        # pos = computerTurn()
+        # print("player 2 move : ", end="")
+        # time.sleep(1)
+        # print(pos)
         print("player 2 move : ",end=" ")
         pos = int(input("Enter your choioce : "))
     if addMove(player,pos-1):
